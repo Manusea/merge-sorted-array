@@ -2,15 +2,14 @@
 import heapq
 
 def merge_sorted_arrays(arr):
-    heap, result, = [], []
-    ptr_num = [0] * len(arr)  
+    heap, result = [], []
     l = 0
     
     while l < len(arr):
         # if the array is not empty
         if arr[l]:
             # push element to the heap with time complexity O(log m)
-            heapq.heappush(heap, [arr[l][0], l])
+            heapq.heappush(heap, [arr[l][0], l, 0])
         l += 1
     
     while heap:
@@ -20,33 +19,23 @@ def merge_sorted_arrays(arr):
         min_num = min_arr[0]
         # index of the array
         idx_arr = min_arr[1]
+        # pointer index of the number in the array
+        ptr_num = min_arr[2] 
 
         # add the minimum number to the result
         result.append(min_num)
 
-        if heap and ptr_num[idx_arr] < len(arr[idx_arr]) - 1:
-            
-            # if the next element in the array is the same as the minimum number add it to the result directly
-            while get_min(heap) == arr[idx_arr][ptr_num[idx_arr] + 1]:
-                result.append(arr[idx_arr][ptr_num[idx_arr] + 1])
-                ptr_num[idx_arr] += 1
-                if ptr_num[idx_arr] >= len(arr[idx_arr]) - 1:
-                    break
-
-        if ptr_num[idx_arr] < len(arr[idx_arr]) - 1:
+        if ptr_num < len(arr[idx_arr]) - 1:
             # add the next element to the heap with time complexity O(log m)
-            heapq.heappush(heap, [arr[idx_arr][ptr_num[idx_arr] + 1], idx_arr])
-            ptr_num[idx_arr] += 1
-
+            heapq.heappush(heap, [arr[idx_arr][ptr_num + 1], idx_arr, ptr_num + 1])
+  
     return result
-
-def get_min(heap):
-    return heap[0][0]
-
+    
     # n = number of arrays
     # m = number of elements in the sub array
     # Total time complexity: O(n log m + m log m) = O(n log m)
-    # Total space complexity: O(n + m) = o(n)
+    # Total space complexity: O(m + n) = O(n)
+
 
 if __name__ == "__main__":
     assert merge_sorted_arrays([[10, 10, 10], [10, 10], [10]]) == [10, 10, 10, 10, 10, 10]
