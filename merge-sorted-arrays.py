@@ -45,8 +45,8 @@ def get_min(heap):
 
     # n = number of arrays
     # m = number of elements in the sub array
-    # Total time complexity: O(n log m)
-    # Total space complexity: O(n)
+    # Total time complexity: O(n log m + m log m) = O(n log m)
+    # Total space complexity: O(n + m) = o(n)
 
 if __name__ == "__main__":
     assert merge_sorted_arrays([[10, 10, 10], [10, 10], [10]]) == [10, 10, 10, 10, 10, 10]
